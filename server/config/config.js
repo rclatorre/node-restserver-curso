@@ -13,7 +13,7 @@ process.env.MODE_ENV = process.env.MODE_ENV || 'dev';
 //=======
 let urlDB;
 
-if (process.env.MODE_ENV === 'dev') {
+if (process.env.MODE_ENV === 'xdev') {
     urlDB = 'mongodb://localhost:27017/cafe';
 } else {
     urlDB = 'mongodb+srv://strider:123@cluster0-7hqtd.mongodb.net/cafe';
