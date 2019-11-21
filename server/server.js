@@ -2,6 +2,8 @@
 require('./config/config');
 
 const express = require('express');
+const mongoose = require('mongoose');
+
 const app = express();
 
 const bodyParser = require('body-parser');
@@ -15,51 +17,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //parse application/json
 app.use(bodyParser.json());
 
-//-------------
-// Metodos
-//-------------
-// GET
-app.get('/usuario', function(req, res) {
-    res.json('getUsuario')
-})
+// importa la ruta de usuarios que se movio para separar codigo
+app.use(require('./routes/usuario'));
 
-// POST
-app.post('/usuario', function(req, res) {
-    let body = req.body;
+//Conecta con la BD
+mongoose.connect(process.env.URLDB, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }, (err, res) => {
+    if (err) throw err;
+    console.log('Base de datos online');
+});
 
-    if (body.nombre === undefined) {
-        res.status(400).json({
-            ok: false,
-            mensaje: 'El nombre es necesario'
-        });
-
-    } else {
-        res.json({
-            persona: body
-        })
-
-    }
-
-})
-
-// PUT
-app.put('/usuario/:id', function(req, res) {
-
-    let id = req.params.id;
-
-    res.json({
-        id
-    })
-})
-
-// DELETE
-app.delete('/usuario/:id', function(req, res) {
-    let id = req.params.id;
-    res.json({
-        id
-    });
-})
-
+//Levanta el servidor
 app.listen(process.env.PORT, () => {
     console.log('Escuchando en el puerto', process.env.PORT);
 })
