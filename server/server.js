@@ -17,8 +17,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //parse application/json
 app.use(bodyParser.json());
 
-// importa la ruta de usuarios que se movio para separar codigo
-app.use(require('./routes/usuario'));
+// importa todas las rutas 
+app.use(require('./routes/index'));
 
 //Conecta con la BD
 mongoose.connect(process.env.URLDB, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }, (err, res) => {

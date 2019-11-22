@@ -1,8 +1,11 @@
 const express = require('express');
-const app = express();
 const Usuario = require('../models/usuario'); //Mayuscula pq desde aqui crearemos instancias con new....
 const bcrypt = require('bcryptjs');
 const _ = require('underscore');
+
+const { verificaToken, verificaAdmin_Role } = require('../middlewares/autenticacion');
+
+const app = express();
 
 // -------
 // Metodos
@@ -11,7 +14,13 @@ const _ = require('underscore');
 // ---
 // GET: Obtener los  usuarios
 // ---
-app.get('/usuario', function(req, res) {
+app.get('/usuario', verificaToken, (req, res) => {
+
+    // return res.json({
+    //     usuario: req.usuario,
+    //     nombre: req.usuario.nombre,
+    //     email: req.usuario.email
+    // });
 
     let desde = req.query.desde || 0;
     desde = Number(desde);
@@ -43,7 +52,7 @@ app.get('/usuario', function(req, res) {
 // ---
 // GET: Obtener los  usuarios
 // ---
-app.get('/usuario/:id', function(req, res) {
+app.get('/usuario/:id', verificaToken, (req, res) => {
     let id = req.params.id;
 
     Usuario.findById(id, (err, usuarioDB) => {
@@ -67,7 +76,7 @@ app.get('/usuario/:id', function(req, res) {
 // ----
 // POST: Creacion de usuario
 // ----
-app.post('/usuario', function(req, res) {
+app.post('/usuario', [verificaToken, verificaAdmin_Role], (req, res) => {
 
     let body = req.body;
 
@@ -102,7 +111,7 @@ app.post('/usuario', function(req, res) {
 // PUT: Actualiza datos del usuario
 // ---
 // Pick se usa para indicar los atributos actualizables
-app.put('/usuario/:id', function(req, res) {
+app.put('/usuario/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
 
     let id = req.params.id;
     let body = _.pick(req.body, ['nombre', 'email', 'img', 'role', 'estado']);
@@ -130,7 +139,7 @@ app.put('/usuario/:id', function(req, res) {
 // ------
 // DELETE
 // ------
-app.delete('/usuario/:id', function(req, res) {
+app.delete('/usuario/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
     let id = req.params.id;
 
     //            Usuario.findByIdAndRemove(id, (err, usuarioDB) => {
