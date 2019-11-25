@@ -13,8 +13,8 @@ const app = express();
 
 // ---
 // GET: Obtener los  usuarios
-// ---
-app.get('/usuario', verificaToken, (req, res) => {
+// --- verificaToken
+app.get('/usuario', (req, res) => {
 
     // return res.json({
     //     usuario: req.usuario,
