@@ -75,8 +75,8 @@ app.get('/usuario/:id', verificaToken, (req, res) => {
 
 // ----
 // POST: Creacion de usuario
-// ----[verificaToken, verificaAdmin_Role],
-app.post('/usuario', (req, res) => {
+// ----
+app.post('/usuario', [verificaToken, verificaAdmin_Role], (req, res) => {
 
     let body = req.body;
 
