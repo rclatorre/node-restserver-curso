@@ -13,8 +13,8 @@ const app = express();
 
 // ---
 // GET: Obtener los  usuarios
-// --- verificaToken
-app.get('/usuario', (req, res) => {
+// --- 
+app.get('/usuario', verificaToken, (req, res) => {
 
     // return res.json({
     //     usuario: req.usuario,
@@ -75,8 +75,8 @@ app.get('/usuario/:id', verificaToken, (req, res) => {
 
 // ----
 // POST: Creacion de usuario
-// ----
-app.post('/usuario', [verificaToken, verificaAdmin_Role], (req, res) => {
+// ----[verificaToken, verificaAdmin_Role],
+app.post('/usuario', (req, res) => {
 
     let body = req.body;
 
