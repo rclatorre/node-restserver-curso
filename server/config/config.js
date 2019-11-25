@@ -39,3 +39,10 @@ if (process.env.MODE_ENV === 'dev') {
 }
 
 process.env.URLDB = urlDB;
+
+
+//=======
+// Google cliente id
+// Se creara en Heroku una variable
+//=======
+process.env.CLIENT_ID = process.env.CLIENT_ID || '138552712854-ula9ge8ud9n7l4mh1dq8jnvfn2tnp1kk.apps.googleusercontent.com';
