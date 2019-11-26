@@ -6,7 +6,7 @@ process.env.PORT = process.env.PORT || 3000;
 //=======
 // Entorno
 //=======
-process.env.MODE_ENV = process.env.MODE_ENV || 'dev';
+process.env.NODE_ENV = process.env.MODE_ENV || 'dev';
 
 //=======
 // Vencimiento del token
