@@ -100,7 +100,7 @@ app.get('/producto/buscar/:termino', verificaToken, (req, res) => {
         })
 });
 
-//Crear producto
+// Crear producto
 app.post('/producto', verificaToken, (req, res) => {
     let body = req.body;
 
@@ -170,12 +170,14 @@ app.put('/producto/:id', verificaToken, (req, res) => {
             });
         }
 
+        // Completa valores para grabar
         productoDB.nombre = body.nombre;
         productoDB.precioUni = body.precioUni;
         productoDB.categoria = body.categoria_id;
         productoDB.disponible = body.disponible;
         productoDB.descripcion = body.descripcion;
 
+        // Graba
         productoDB.save((err, productoGuardado) => {
             if (err) {
                 // 500 bad request
@@ -184,7 +186,6 @@ app.put('/producto/:id', verificaToken, (req, res) => {
                     err
                 });
             }
-
 
             res.json({
                 ok: true,
@@ -197,7 +198,9 @@ app.put('/producto/:id', verificaToken, (req, res) => {
 
 });
 
-//Borrar producto
+// ---------------
+// Borrar producto
+// ---------------
 app.delete('/producto/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
     let id = req.params.id;
 
@@ -237,12 +240,6 @@ app.delete('/producto/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
                 message: 'producto borrado'
             });
         });
-
-
-
-
-
-
 
     });
 
