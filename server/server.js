@@ -1,6 +1,7 @@
 //Carga variables y constantes globales
 require('./config/config');
 
+const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
@@ -8,6 +9,8 @@ const path = require('path');
 const app = express();
 
 const bodyParser = require('body-parser');
+
+app.use(cors({ origin: true, credentials: true }));
 
 //------------
 // Middlewares

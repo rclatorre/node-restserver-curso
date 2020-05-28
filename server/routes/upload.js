@@ -5,7 +5,7 @@ const path = require('path');
 
 // Modelos de datos
 const Usuario = require('../models/usuario');
-const Producto = require('../models/producto');
+//const Producto = require('../models/producto');
 
 // app
 const app = express();
@@ -128,42 +128,43 @@ function imagenUsuario(id, res, nombreArchivo) {
 }
 
 function imagenProducto(id, res, nombreArchivo) {
-    Producto.findById(id, (err, productoDB) => {
-        if (err) {
-            borrarArchivo(nombreArchivo, 'productos');
 
-            return res.status(500).json({
-                ok: false,
-                err
-            });
-        }
+    // Producto.findById(id, (err, productoDB) => {
+    //     if (err) {
+    //         borrarArchivo(nombreArchivo, 'productos');
 
-        if (!productoDB) {
-            borrarArchivo(nombreArchivo, 'productos');
+    //         return res.status(500).json({
+    //             ok: false,
+    //             err
+    //         });
+    //     }
 
-            return res.status(400).json({
-                ok: false,
-                err: {
-                    message: 'Producto no existe'
-                }
-            });
-        }
+    //     if (!productoDB) {
+    //         borrarArchivo(nombreArchivo, 'productos');
 
-        borrarArchivo(productoDB.img, 'productos');
+    //         return res.status(400).json({
+    //             ok: false,
+    //             err: {
+    //                 message: 'Producto no existe'
+    //             }
+    //         });
+    //     }
 
-
-        productoDB.img = nombreArchivo;
-
-        productoDB.save((err, productoGuardado) => {
-            res.json({
-                ok: true,
-                producto: productoGuardado,
-                img: nombreArchivo
-            });
-        });
+    //     borrarArchivo(productoDB.img, 'productos');
 
 
-    });
+    //     productoDB.img = nombreArchivo;
+
+    //     productoDB.save((err, productoGuardado) => {
+    //         res.json({
+    //             ok: true,
+    //             producto: productoGuardado,
+    //             img: nombreArchivo
+    //         });
+    //     });
+
+
+    // });
 }
 
 function borrarArchivo(nombreImagen, tipo) {

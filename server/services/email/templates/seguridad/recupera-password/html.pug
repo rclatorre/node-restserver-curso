@@ -1,0 +1,36 @@
+  
+doctype html
+html(lang="es")
+  head
+    meta(charset="UTF-8")
+    title Recuperacion de contraseña
+    style   
+        include ./style.css
+ 
+  body.color-secondary
+
+    div.body
+
+        div.container
+            div.header
+                - var img = datosEmail.rutaLogotipos+'logo.png'
+                img.image(src=img)
+
+            div
+                p.saludo.color-primary Hola #{datosEmail.nombre}, solicitaste la recuperacion de tu contraseña, has click en el siguiente boton
+
+            - var btnType = 'info'
+            - var btnSize = 'lg'
+            button(type='button' class='btn btn-' + btnType + ' btn-' + btnSize + ' color-primary-bg')
+                a.color-light(href=enlace, title="cambiar contraseña") Cambiar contraseña
+
+            h2.color-secondary Si el botón superior no funciona, copia esto en tu navegador web:
+            h2.color-primary #{enlace}
+
+
+              
+        
+            //- div.importante.color-secondary-bg.color-light
+            //-     p.title Importante
+            //-     p.nota Horario de atencion: #{datosEmail.horarioAtencion} , operaciones fuera de ese horario seran atendidas en el siguiente turno.
+

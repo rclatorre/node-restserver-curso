@@ -1,12 +1,19 @@
+/*
+Revisado        : 05/02/2020
+Nota Revision   : Aclarar uso de verificaTokenImg
+*/
 const jwt = require('jsonwebtoken');
 
 // =====================
 // Verifica token
+// Carga usuario decodificado del token en req.usuario
 // =====================
 let verificaToken = (req, res, next) => {
-    let token = req.get('token');
+    let token = req.get('x-token');
 
     jwt.verify(token, process.env.SEED_TOKEN, (err, decoded) => {
+
+
         if (err) {
             // 401 no autorizado
             return res.status(401).json({
@@ -18,10 +25,10 @@ let verificaToken = (req, res, next) => {
         }
 
         req.usuario = decoded.usuario; //Coloca usuario en req para que sea usado luego de la llamada al middleware
+
         next(); // Hace que se ejecute todo lo demas despues de llamar al middleware
 
     });
-
 }
 
 
@@ -47,7 +54,8 @@ let verificaAdmin_Role = (req, res, next) => {
 
 
 // =====================
-// Verifica token para imagen (url)
+// Verifica token para imagen 
+// Cuando se tiene que acceder desde una url
 // =====================
 let verificaTokenImg = (req, res, next) => {
     let token = req.query.token;

@@ -2,10 +2,49 @@ const express = require('express');
 const Usuario = require('../models/usuario'); //Mayuscula pq desde aqui crearemos instancias con new....
 const bcrypt = require('bcryptjs');
 const _ = require('underscore');
+const jwt = require('jsonwebtoken');
 
 const { verificaToken, verificaAdmin_Role } = require('../middlewares/autenticacion');
 
+const Email = require('email-templates');
+
 const app = express();
+
+
+const email = new Email({
+    message: {
+        from: 'mensajeria.smtp@primesoft.com.pe',
+    },
+    // send: true,
+    transport: {
+        host: 'rlatorre.ferozo.com',
+        port: 465,
+        secure: true,
+        auth: {
+            type: 'login',
+            user: 'mensajeria.smtp@primesoft.com.pe',
+            pass: 'Eelcpcep1qa'
+        },
+        tls: {
+            rejectUnauthorized: false
+        }
+    },
+    views: {
+        options: {
+            extension: 'pug',
+        },
+        root: 'server/services/email/templates/seguridad/',
+    },
+    i18n: {
+        locales: ['en', 'es'],
+        directory: 'server/assets/i18n',
+    }
+});
+
+
+
+
+
 
 // -------
 // Metodos
@@ -52,7 +91,7 @@ app.get('/usuario', verificaToken, (req, res) => {
 // ---
 // GET: Obtener los  usuarios
 // ---
-app.get('/usuario/:id', verificaToken, (req, res) => {
+app.get('/usuario/id/:id', verificaToken, (req, res) => {
     let id = req.params.id;
 
     Usuario.findById(id, (err, usuarioDB) => {
@@ -73,10 +112,59 @@ app.get('/usuario/:id', verificaToken, (req, res) => {
 
 })
 
+// ---
+// GET: Obtiene datos del usuario, solo si el token es valido
+// --- 
+app.get('/usuario/token', verificaToken, (req, res) => {
+
+    res.json({
+        ok: true,
+        usuario: req.usuario
+    });
+
+})
+
+// ----
+// GET : Verifica email
+// ----
+// [verificaToken, verificaAdmin_Role]
+app.get('/usuario/verificaEmail/:email', (req, res) => {
+
+    let email = req.params.email;
+
+    Usuario.find({ email: email }, (err, usuarioDB) => {
+        if (err) {
+            // 400 bad request
+            return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+
+        if (!usuarioDB) {
+            // 400 bad request
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Usuario no encontrado'
+                }
+            });
+        }
+
+        res.json({
+            ok: true,
+            usuario: usuarioDB
+        });
+    });
+
+});
+
+
 // ----
 // POST: Creacion de usuario
 // ----
-app.post('/usuario', [verificaToken, verificaAdmin_Role], (req, res) => {
+// [verificaToken, verificaAdmin_Role]
+app.post('/usuario/crear', (req, res) => {
 
     let body = req.body;
 
@@ -175,6 +263,85 @@ app.delete('/usuario/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
 
 })
 
+// ----
+// GET : Recupera password
+// ----
+// [verificaToken, verificaAdmin_Role]
+app.get('/usuario/recuperaPassword/:email', (req, res) => {
 
+    let email = req.params.email;
+
+    Usuario.find({ email: email }, (err, usuarioDB) => {
+        if (err) {
+            // 400 bad request
+            return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+
+        if (!usuarioDB) {
+            // 400 bad request
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Email no encontrado'
+                }
+            });
+        }
+
+        // Genera un nuevo token, envia email y retorna ok
+        // process.env.SEED_TOKEN se creo en heroku
+        let token = jwt.sign({
+            email: usuarioDB[0].email
+        }, process.env.SEED_TOKEN, { expiresIn: process.env.CADUCIDAD_TOKEN_RECUPERACION });
+
+        console.log('token generado', token);
+
+
+        // Envia email
+        let enlace = process.env.URLFront + `/#/recuperaPassword/${token}`;
+        enviarEmailRecuperacionPassword({ email: usuarioDB[0].email, nombre: usuarioDB[0].nombre, enlace: enlace });
+
+        res.json({
+            ok: true,
+            email: usuarioDB[0].email
+        });
+
+    });
+
+});
+
+let enviarEmailRecuperacionPassword = async(datosEmail) => {
+
+    let configuracion = await getConfiguracion();
+
+    email.send({
+            template: 'recupera-password',
+            message: {
+                to: datosEmail.email
+                    // bcc: datosEmail.emailTransacciones
+            },
+            locals: {
+                locale: 'en',
+                datosEmail,
+                moment: require('moment')
+            }
+        })
+        .then(console.log)
+        .catch(console.error);
+
+}
+
+
+/*
+Datos de la empresa
+*/
+let getConfiguracion = async() => {
+
+    let configuracion = await Configuracion.find();
+
+    return configuracion[0];
+}
 
 module.exports = app;

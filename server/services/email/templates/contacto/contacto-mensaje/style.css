@@ -1,0 +1,222 @@
+/* montserrat-regular - latin */
+
+@font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/montserrat-v14-latin-regular.eot');
+    /* IE9 Compat Modes */
+    src: local('Montserrat Regular'), local('Montserrat-Regular'), url('../fonts/montserrat-v14-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../fonts/montserrat-v14-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+    url('../fonts/montserrat-v14-latin-regular.woff') format('woff'), /* Modern Browsers */
+    url('../fonts/montserrat-v14-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('../fonts/montserrat-v14-latin-regular.svg#Montserrat') format('svg');
+    /* Legacy iOS */
+}
+
+:root {
+    /** primary **/
+    --ion-color-primary: #3071E2;
+    --ion-color-primary-rgb: 79, 36, 172;
+    --ion-color-primary-contrast: rgba(250, 250, 250, 0.575);
+    --ion-color-primary-contrast-rgb: 255, 255, 255;
+    --ion-color-primary-shade: #020BEE;
+    --ion-color-primary-tint: rgb(114, 155, 250);
+    /** secondary **/
+    --ion-color-secondary: #ffffff;
+    --ion-color-secondary-rgb: 152, 108, 218;
+    --ion-color-secondary-contrast: #fff;
+    --ion-color-secondary-contrast-rgb: 0, 0, 0;
+    --ion-color-secondary-shade: #865fc0;
+    --ion-color-secondary-tint: #a27bde;
+    /** tertiary **/
+    --ion-color-tertiary: rgb(124, 123, 128);
+    --ion-color-tertiary-rgb: 214, 213, 239;
+    --ion-color-tertiary-contrast: rgb(37, 13, 91);
+    --ion-color-tertiary-contrast-rgb: 0, 0, 0;
+    --ion-color-tertiary-shade: #bcbbd2;
+    --ion-color-tertiary-tint: #dad9f1;
+    /** success **/
+    --ion-color-success: #73DB37;
+    --ion-color-success-rgb: 93, 200, 152;
+    --ion-color-success-contrast: #ffffff;
+    --ion-color-success-contrast-rgb: 0, 0, 0;
+    --ion-color-success-shade: #52b086;
+    --ion-color-success-tint: #6dcea2;
+    /** warning **/
+    --ion-color-warning: #e0b910;
+    --ion-color-warning-rgb: 254, 210, 18;
+    --ion-color-warning-contrast: #ffffff;
+    --ion-color-warning-contrast-rgb: 0, 0, 0;
+    --ion-color-warning-shade: #FED212;
+    --ion-color-warning-tint: #fed72a;
+    /** danger **/
+    --ion-color-danger: #EF291D;
+    --ion-color-danger-rgb: 239, 41, 29;
+    --ion-color-danger-contrast: #ffffff;
+    --ion-color-danger-contrast-rgb: 255, 255, 255;
+    --ion-color-danger-shade: #d2241a;
+    --ion-color-danger-tint: #f13e34;
+    /** dark **/
+    --ion-color-dark: #595d66;
+    --ion-color-dark-rgb: 37, 13, 91;
+    --ion-color-dark-contrast: #D6D5EF;
+    --ion-color-dark-contrast-rgb: 255, 255, 255;
+    --ion-color-dark-shade: rgb(24, 4, 66);
+    --ion-color-dark-tint: rgb(41, 15, 102);
+    /** medium **/
+    --ion-color-medium: rgba(255, 255, 255, 0.972);
+    --ion-color-medium-rgb: 178, 190, 213;
+    --ion-color-medium-contrast: rgb(37, 13, 91);
+    --ion-color-medium-contrast-rgb: 0, 0, 0;
+    --ion-color-medium-shade: #9da7bb;
+    --ion-color-medium-tint: #bac5d9;
+    /** light **/
+    --ion-color-light: #F7F7FA;
+    --ion-color-light-rgb: 247, 247, 250;
+    --ion-color-light-contrast: rgb(37, 13, 91);
+    --ion-color-light-contrast-rgb: 0, 0, 0;
+    --ion-color-light-shade: #d9d9dc;
+    --ion-color-light-tint: #f8f8fb;
+    /** finalizar **/
+    --ion-color-confirm: rgb(23, 146, 12);
+    --ion-color-confirm-rgb: 23, 146, 12;
+    --ion-color-confirm-contrast: rgb(75, 190, 65);
+    --ion-color-confirm-contrast-rgb: 0, 0, 0;
+    --ion-color-confirm-shade: rgb(75, 190, 65);
+    --ion-color-confirm-tint: rgb(75, 190, 65);
+}
+
+
+/*Colores*/
+
+.color-primary {
+    color: #3071E2
+}
+
+.color-primary-bg {
+    background-color: #3071E2
+}
+
+.color-primary-tint {
+    color: rgb(114, 155, 250);
+}
+
+.color-secondary {
+    color: rgb(124, 123, 128);
+}
+
+.color-secondary-bg {
+    background-color: rgb(124, 123, 128);
+}
+
+.color-light {
+    color: #ffffff
+}
+
+.color-light-bg {
+    background-color: #ffffff
+}
+
+.border-color {
+    border-color: #3071E2
+}
+
+
+/*Maquetacion*/
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    padding: 40px;
+    background-color: #f0f0f0;
+    font-size: 1rem;
+}
+
+.body {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: column;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    color:#595d66; 
+}
+
+.container {
+    width: 600px;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: column;
+    flex-flow: column;
+    background-color: white;
+    justify-content: left;
+    align-items: left;
+    margin: 20px 40px 20px 40px;
+    padding: 20px 40px 20px 40px;
+    
+}
+
+.top {
+    height: 30px;
+}
+
+.header {
+    border-bottom: solid 1px #f0f0f0;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.header .top{
+    font-size: 1.5em;
+    margin:0px
+    
+}
+
+.contenido {
+    
+}
+
+.contenido .saludo {
+    
+    font-weight: normal;
+}
+
+.contenido .mensaje {
+    font-weight: normal;
+    text-align: left;
+}
+
+.contenido .datos {
+    background-color: #f0f0f0;
+    padding: 10px;
+}
+
+.contenido .datos .dato {
+    font-weight: normal;
+    text-align: left;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.contenido .datos .dato em{
+    font-weight: 700;
+}
+
+.footer {
+    padding-top: 30px;
+}
+
+.footer .firma p{
+    font-weight: normal;
+    text-align: left;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.footer .img {
+    padding-top: 30px;
+}
+
+.footer .img .logo {
+    width: 300px;
+}

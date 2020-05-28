@@ -1,0 +1,53 @@
+  
+doctype html
+html(lang="es")
+  head
+    meta(charset="UTF-8")
+    title Contacto
+    style   
+        include ./style.css
+ 
+  body.color-secondary
+
+    div.body
+
+        div.container
+            table(style='width:100%')
+                tbody
+                    tr
+                        td
+
+                            div.header
+                                p.top Change2Go
+
+                    tr
+                        td
+                            div.contenido
+                                    p.saludo Estimado #{datosEmail.nombre},
+
+                                    p.mensaje Le agradecemos su comunicacion, le confirmamos que hemos recibido sus datos y nos pondremos en contacto con usted a la brevedad posible
+
+                                    div.datos
+                                        p.dato <em>Nombre:</em> #{datosEmail.nombre}
+                                        p.dato <em>Email:</em> #{datosEmail.email}
+                                        p.dato <em>Telefono:</em> #{datosEmail.telefono}
+                                        p.dato <em>Motivo del Contacto :</em> #{datosEmail.mensaje}
+    
+                    tr
+                        td
+                            div.footer
+
+                                div.firma
+                                    p El equipo de Change2Go
+                                    p www.change2go.es
+                                    p T. 910 701 812
+                                    p info@change2go.es
+                                    p Calle Mayor, 44, 28013 Madrid, España
+                            
+                                div.img
+                                    - var img = datosEmail.rutaLogotipos+'logo.png'
+                                    img.logo(src=img)
+
+                                    - var img = datosEmail.rutaLogotipos+'postFirma.png'
+                                    img.postFirma(src=img)
+

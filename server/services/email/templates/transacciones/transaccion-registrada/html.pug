@@ -1,0 +1,61 @@
+  
+doctype html
+html(lang="es")
+  head
+    meta(charset="UTF-8")
+    title Transaccion registrada
+    style   
+        include ./style.css
+ 
+  body.color-secondary
+
+    div.body
+      div.container
+        table(style='width:100%')
+          tbody
+            tr
+              td
+                div.header
+                  p.top Change2Go
+            tr
+              td
+                div.contenido
+                  p.saludo Estimado #{datosEmail.nombre},
+
+                  p.mensaje='Gracias por confiar en Change2Go, le informamos que hemos recibido su operación el : ' + moment(datosEmail.fechaHora).format("DD/MM/YYYY, h:mm:ss a") + ''
+                  p.mensaje='N° de Operacion: ' + datosEmail.numeroTransaccion
+
+                  div.datos
+                    if datosEmail.opcionEntrega === 'OpcionEntregaTienda'
+                      p.dato Le esperamos en nuestra tienda ubicada en #{datosEmail.ciudadRecojo}
+                      p.dato Dirección: #{datosEmail.establecimientoRecojo}
+                    else
+                      p.dato Estamos programando el envío de su dinero a la dirección solicitada
+                      p.dato Su Dirección: #{datosEmail.direccion}
+
+                    p.tituloResumen Resumen de su operación
+                    p.dato <em>Cantidad que debe Enviar:</em> #{datosEmail.cantidadDe} #{datosEmail.monedaDe}
+                    p.dato <em>Cantidad que Recibirá:</em> #{datosEmail.cantidadA} #{datosEmail.monedaA}
+
+                  div.importante
+                    p.importante Importante
+                    p.mensaje Debe tener su documento de identidad a la mano al momento de recibir su dinero
+                    p.mensaje Horario de atencion: #{datosEmail.horarioAtencion} , operaciones fuera de ese horario seran atendidas en el siguiente turno.
+
+            tr
+              td
+                div.footer
+
+                  div.firma
+                    p El equipo de Change2Go
+                    p www.change2go.es
+                    p T. 910 701 812
+                    p info@change2go.es
+                    p Calle Mayor, 44, 28013 Madrid, España
+                  div.img
+                    - var img = datosEmail.rutaLogotipos+'logo.png'
+                    img.logo(src=img)
+
+                    - var img = datosEmail.rutaLogotipos+'postFirma.png'
+                    img.postFirma(src=img)
+
