@@ -24,7 +24,11 @@ process.env.CADUCIDAD_TOKEN_RECUPERACION = '1h';
 // Seed del token
 //=======
 // En heroku debe estar declarada esta variable, de esta forma no es visible en github 
-// Comando para crear la variable: heroku config:set SEED_TOKEN='este-es-el-seed-desarrollo'
+/*
+    Comando para crear la variable: 
+    heroku config:set SEED_TOKEN='este-es-el-seed-change2go'
+    estado: creada
+*/
 process.env.SEED_TOKEN = process.env.SEED_TOKEN || 'este-seed-es-de-divisa-2020';
 
 //=======
@@ -37,7 +41,11 @@ if (process.env.NODE_ENV === 'dev') {
     // urlDB = 'mongodb+srv://strider:123@cluster0-7hqtd.mongodb.net/divisa_change2Go';
 } else {
     // En heroku debe estar declarada esta variable, de esta forma no es visible en github 
-    // Comando para crear la variable: heroku config:set MONGO_URI='mongodb+srv://strider:123@cluster0-7hqtd.mongodb.net/cafe'    
+    /*
+        Comando para crear la variable: 
+        heroku config:set MONGO_URI='mongodb+srv://striderChange2go:123@cluster0-laqtw.mongodb.net/divisa_change2go'    
+        estado: creada
+    */
     urlDB = process.env.MONGO_URI;
 }
 
@@ -51,5 +59,9 @@ process.env.URLDB = urlDB;
 process.env.CLIENT_ID = process.env.CLIENT_ID || '138552712854-ula9ge8ud9n7l4mh1dq8jnvfn2tnp1kk.apps.googleusercontent.com';
 
 // process.env.URLFront = 'http://c1761019.ferozo.com';
-// Comando para crear la variable: heroku config:set URLFront='http://c1761019.ferozo.com'    
+/*
+    Comando para crear la variable: 
+    heroku config:set URLFront='http://c1301399.ferozo.com'    
+    estado: creada
+*/
 process.env.URLFront = process.env.URLFront || 'http://localhost:8100';
