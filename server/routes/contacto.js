@@ -96,9 +96,12 @@ let getInformacionEmailContacto = async(datos) => {
     console.log(configuracion.rutaLogotipos);
     let datosEmail = {
         rutaLogotipos: configuracion.rutaLogotipos,
+        company: datos.company,
+        nif: datos.nif,
         email: datos.email,
-        nombre: datos.name+' '+datos.lastName,
+        nombre: datos.name,
         telefono: datos.phone,
+        motivo: datos.reason,
         mensaje: datos.subject
     };
 

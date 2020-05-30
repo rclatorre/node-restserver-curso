@@ -28,10 +28,15 @@ html(lang="es")
                                     p.mensaje Le agradecemos su comunicacion, le confirmamos que hemos recibido sus datos y nos pondremos en contacto con usted a la brevedad posible
 
                                     div.datos
+                                        if (datosEmail.company)
+                                            p.dato <em>Razon Social:</em> #{datosEmail.company}
+                                            p.dato <em>NIF:</em> #{datosEmail.nif}
+
                                         p.dato <em>Nombre:</em> #{datosEmail.nombre}
                                         p.dato <em>Email:</em> #{datosEmail.email}
                                         p.dato <em>Telefono:</em> #{datosEmail.telefono}
-                                        p.dato <em>Motivo del Contacto :</em> #{datosEmail.mensaje}
+                                        p.dato <em>Motivo del Contacto :</em> #{datosEmail.motivo}
+                                        p.dato <em>Descripcion Motivo :</em> #{datosEmail.mensaje}
     
                     tr
                         td
