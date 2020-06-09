@@ -136,6 +136,7 @@ let transaccionSchema = new Schema({
     },
 
     fechaRegistro: { type: Date },
+    fechaRecogida: { type: Date },
 
 });
 /*

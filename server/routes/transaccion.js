@@ -118,6 +118,7 @@ app.post('/transaccion/registrar', verificaToken, async(req, res) => {
 
     // Crea objeto transaccion con las propiedades y metodos definidos en Transaccion
     let transaccion = new Transaccion({
+        fechaRegistro: Date.now(),
         monedaDe: body.monedaDe_id,
         monedaA: body.monedaA_id,
         codigoDeA: body.codigoDeA,
@@ -126,12 +127,14 @@ app.post('/transaccion/registrar', verificaToken, async(req, res) => {
         cantidadA: body.cantidadA,
         metodoDePago: body.metodoDePago_id,
         opcionEntrega: body.opcionEntrega_id,
+        fechaRecogida: body.fechaRecogida,
         ciudadEstablecimientoRecojo: body.ciudadEstablecimientoRecojo_id,
         establecimientoRecojo: body.establecimientoRecojo_id
     });
 
     // Traer el primer estado 
-    transaccion.estadoDeTransaccion = '5e544d4a92c69d6b2c1ef85c';
+    estado = await obtenerTabla('EstadoTransaccionEnCurso');
+    transaccion.estadoDeTransaccion = estado._id;
 
     transaccion.usuarioCliente = req.usuario._id;
 
@@ -387,6 +390,7 @@ app.get('/transaccion/nueva', async(req, res) => {
                         // 400 bad request
                         reject('Error');
                     }
+                    console.log(codigo, cotizacion);
 
                     resolve(parseFloat(cotizacion[0].cotizacion));
 
@@ -421,6 +425,7 @@ app.get('/transaccion/nueva', async(req, res) => {
     let cantidadA = 0;
     let metodoDePago = await obtenerTabla('MetodoDePagoTarjeta');
     let opcionEntrega = await obtenerTabla('OpcionEntregaTienda');
+    let fechaRecogida = '';
     let ciudadEstablecimientoRecojo = await obtenerTabla('CiudadEstablecimientoMadrid');
     let establecimientoRecojo = await obtenerTabla('LocalMadridPrincipal');
     let usuarioCliente = '';
@@ -460,6 +465,7 @@ app.get('/transaccion/nueva', async(req, res) => {
         cantidadA,
         metodoDePago,
         opcionEntrega,
+        fechaRecogida,
         ciudadEstablecimientoRecojo,
         establecimientoRecojo,
         usuarioCliente,
@@ -569,6 +575,24 @@ let getConfiguracion = async() => {
     let configuracion = await Configuracion.find();
 
     return configuracion[0];
+}
+
+
+/*
+Obtiene valor de tabla
+*/
+let obtenerTabla = async(codigo) => {
+    return new Promise((resolve, reject) => {
+
+        Tabla.find({ codigo: codigo })
+            .exec((err, tabla) => {
+                if (err) {
+                    // 400 bad request   
+                    reject('Error');
+                }
+                resolve(tabla[0]);
+            });
+    })
 }
 
 module.exports = app;

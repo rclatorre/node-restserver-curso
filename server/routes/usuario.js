@@ -1,5 +1,8 @@
 const express = require('express');
+const Configuracion = require('../models/configuracion'); //Mayuscula pq desde aqui crearemos instancias con new....
 const Usuario = require('../models/usuario'); //Mayuscula pq desde aqui crearemos instancias con new....
+const Cliente = require('../models/cliente'); //Mayuscula pq desde aqui crearemos instancias con new....
+const Tabla = require('../models/tabla'); //Mayuscula pq desde aqui crearemos instancias con new....
 const bcrypt = require('bcryptjs');
 const _ = require('underscore');
 const jwt = require('jsonwebtoken');
@@ -173,11 +176,11 @@ app.post('/usuario/crear', (req, res) => {
         nombre: body.nombre,
         email: body.email,
         password: bcrypt.hashSync(body.password, 10),
-        role: body.role
+        role: 'USER_ROLE'
     });
 
     // Llama al metodo de grabacion
-    usuario.save((err, usuarioDB) => {
+    usuario.save(async(err, usuarioDB) => {
         if (err) {
             // 400 bad request
             return res.status(400).json({
@@ -186,11 +189,75 @@ app.post('/usuario/crear', (req, res) => {
             });
         }
 
-        // status 200 no es necesario, va por defecto
-        res.json({
-            ok: true,
-            usuario: usuarioDB
+        let cliente = new Cliente({
+            usuarioAsociado: usuarioDB._id,
+            nombre: body.cliente.nombre,
+            email: body.cliente.email
         });
+
+        if (body.cliente.primerApellido) cliente.primerApellido = body.cliente.primerApellido;
+        if (body.cliente.segundoApellido) cliente.segundoApellido = body.cliente.segundoApellido;
+        if (body.cliente.telefono) cliente.telefono = body.cliente.telefono;
+        if (body.cliente.direccion) cliente.direccion = body.cliente.direccion;
+        if (body.cliente.paisDeOrigen_id === undefined) {
+            pais = await obtenerTabla('Paises_España');
+            cliente.paisDeOrigen = pais._id;
+        } 
+        else {
+            cliente.paisDeOrigen = body.cliente.paisDeOrigen_id;
+        }
+        if (body.cliente.tipoDocumentoIdentidad_id === undefined) {
+            tipoDocumentoIdentidad = await obtenerTabla('TipoDocumentoIdentidad_DNI');
+            cliente.tipoDocumentoIdentidad = tipoDocumentoIdentidad._id;
+        } else {
+            cliente.tipoDocumentoIdentidad = body.cliente.tipoDocumentoIdentidad_id;
+        }
+        if (body.cliente.numeroDocumentoIdentidad !== undefined) cliente.numeroDocumentoIdentidad = body.cliente.numeroDocumentoIdentidad;
+        if (body.cliente.fechaNacimiento !== undefined) cliente.fechaNacimiento = body.cliente.fechaNacimiento;
+
+        console.log('cliente',cliente);
+
+        // Llama al metodo de grabacion
+        cliente.save((err, clienteDB) => {
+
+            if (err) {
+                console.log(err);
+                // 500 bad request
+                return res.status(500).json({
+                    ok: false,
+                    err
+                });
+            }
+
+            if (!clienteDB) {
+                // 400 bad request
+                return res.status(400).json({
+                    ok: false,
+                    err
+                });
+            }
+
+            // Enviar email
+            // enviarEmailActivacion(clienteDB);
+
+            // status 200 no es necesario, va por defecto
+            res.json({
+                ok: true,
+                usuario: usuarioDB
+            });
+
+        });
+
+
+        // // status 200 no es necesario, va por defecto
+        // res.json({
+        //     ok: true,
+        //     usuario: usuarioDB
+        // });
+
+
+
+
     });
 
 });
@@ -301,12 +368,19 @@ app.get('/usuario/recuperaPassword/:email', (req, res) => {
 
         // Envia email
         let enlace = process.env.URLFront + `/#/recuperaPassword/${token}`;
-        enviarEmailRecuperacionPassword({ email: usuarioDB[0].email, nombre: usuarioDB[0].nombre, enlace: enlace });
-
-        res.json({
-            ok: true,
-            email: usuarioDB[0].email
+        enviarEmailRecuperacionPassword({ email: usuarioDB[0].email, nombre: usuarioDB[0].nombre, enlace: enlace })
+        .then(resp =>{
+            res.json({
+                ok: true,
+                email: usuarioDB[0].email
+            });
+        }).catch(e => {
+            res.json({
+                ok: false,
+                error: e
+            });
         });
+
 
     });
 
@@ -343,5 +417,23 @@ let getConfiguracion = async() => {
 
     return configuracion[0];
 }
+
+/*
+Obtiene valor de tabla
+*/
+let obtenerTabla = async(codigo) => {
+    return new Promise((resolve, reject) => {
+
+        Tabla.find({ codigo: codigo })
+            .exec((err, tabla) => {
+                if (err) {
+                    // 400 bad request   
+                    reject('Error');
+                }
+                resolve(tabla[0]);
+            });
+    })
+}
+
 
 module.exports = app;
