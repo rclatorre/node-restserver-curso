@@ -37,8 +37,8 @@ process.env.SEED_TOKEN = process.env.SEED_TOKEN || 'este-seed-es-de-divisa-2020'
 let urlDB;
 
 if (process.env.NODE_ENV === 'dev') {
-    // urlDB = 'mongodb://localhost:27017/divisa_change2go';
-    urlDB = 'mongodb+srv://striderChange2go:123@cluster0-laqtw.mongodb.net/divisa_change2go?retryWrites=true&w=majority';
+    urlDB = 'mongodb://localhost:27017/divisa_change2go';
+    //urlDB = 'mongodb+srv://striderChange2go:123@cluster0-laqtw.mongodb.net/divisa_change2go?retryWrites=true&w=majority';
 } else {
     // En heroku debe estar declarada esta variable, de esta forma no es visible en github 
     /*

@@ -153,6 +153,9 @@ body {
     margin: 20px 40px 20px 40px;
     padding: 20px 40px 20px 40px;
     
+    @media (max-width: 700px) {
+        width: 100%;
+    }
 }
 
 .top {
